@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/png" />
+    <title>Гра П'ятнашки</title>
+  </head>
+  <body>
+    <div class="puzzle-container">
+      <h1>Гра П'ятнашки</h1>
+      <header>
+        <div class="steps">
+          <span class="label">Ходів:</span>
+          <span class="value">0</span>
+        </div>
+        <div class="time">
+          <span class="label">Час:</span>
+          <span class="value">00:00</span>
+        </div>
+      </header>
+      <div id="puzzle-board" class="puzzle-board disabled">
+        <!-- Пазлы будут созданы с помощью JavaScript -->
+      </div>
+      <button id="shuffle-button">Почати</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

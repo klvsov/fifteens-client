@@ -1,0 +1,112 @@
+:root {
+  --background-gray: #d3d3d361;
+  --background-white: #fff;
+  --background-blue: #007bff;
+  --border-gray: #333;
+  --piece-default: #a4a4ff2e;
+  --piece-solved: #ff4f4f5c;
+  --piece-empty: #fff;
+}
+
+body {
+  font-family: 'Karla', sans-serif;
+  text-align: center;
+  background-color: var(--background-gray);
+}
+
+.puzzle-container {
+  margin: 20px auto;
+  padding: 25px;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--background-white);
+}
+
+.puzzle-container h1 {
+  font-size: 28px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+header {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  background-color: var(--background-blue);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+header .steps,
+header .time {
+  display: flex;
+  gap: 10px;
+  color: var(--background-white);
+}
+
+header .steps .value,
+header .time .value {
+  font-weight: bold;
+}
+
+.puzzle-board {
+  width: 200px;
+  height: 200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: white;
+}
+
+.puzzle-board.disabled .puzzle-piece {
+  cursor: auto;
+  opacity: 0.5;
+}
+
+.puzzle-piece {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  background-color: var(--piece-default);
+  border: 1px solid var(--border-gray);
+  border-bottom: none;
+  border-right: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.puzzle-piece.solved {
+  background-color: var(--piece-solved);
+}
+
+.puzzle-piece.empty {
+  background-color: var(--piece-empty);
+}
+
+.puzzle-piece:nth-child(n + 13) {
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.puzzle-piece:nth-child(4n) {
+  border-right: 1px solid var(--border-gray);
+}
+
+button {
+  width: 200px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: var(--background-blue);
+  font-size: 24px;
+  font-family: inherit;
+  color: var(--background-white);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
