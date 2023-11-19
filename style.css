@@ -14,14 +14,106 @@ body {
   background-color: var(--background-gray);
 }
 
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--background-white);
+  border-bottom-color: var(--background-blue);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader.hidden {
+  display: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: var(--background-white);
+  border-radius: 8px;
+}
+
+.overlay form input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.scores-container,
 .puzzle-container {
-  margin: 20px auto;
+  max-width: 250px;
+  width: 250px;
+  margin: 20px 0;
   padding: 25px;
-  max-width: 200px;
   display: flex;
   align-items: center;
   flex-direction: column;
   background-color: var(--background-white);
+  box-sizing: border-box;
+}
+
+.scores-container h2 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.scores-container .scores-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 18px;
+}
+
+.scores-container .scores-list .empty {
+  opacity: 0.5;
+  text-align: center;
+}
+
+.scores-container .scores-list p {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.scores-container .scores-list p span:first-child {
+  width: 20px;
 }
 
 .puzzle-container h1 {
@@ -109,4 +201,13 @@ button {
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

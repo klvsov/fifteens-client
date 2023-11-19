@@ -14,22 +14,34 @@
     <title>Гра П'ятнашки</title>
   </head>
   <body>
-    <div class="puzzle-container">
-      <h1>Гра П'ятнашки</h1>
-      <header>
-        <div class="steps">
-          <span class="label">Ходів:</span>
-          <span class="value">0</span>
-        </div>
-        <div class="time">
-          <span class="label">Час:</span>
-          <span class="value">00:00</span>
-        </div>
-      </header>
-      <div id="puzzle-board" class="puzzle-board disabled">
-        <!-- Пазлы будут созданы с помощью JavaScript -->
+    <div class="overlay hidden">
+      <form id="user-form">
+        <label for="user">Ваше ім'я</label>
+        <input type="text" name="user" id="user" />
+        <button id="start-game" type="submit">Зберегти</button>
+      </form>
+    </div>
+    <div class="container">
+      <div class="puzzle-container">
+        <h1>Гра П'ятнашки</h1>
+        <header>
+          <div class="steps">
+            <span class="label">Ходів:</span>
+            <span class="value">0</span>
+          </div>
+          <div class="time">
+            <span class="label">Час:</span>
+            <span class="value">00:00</span>
+          </div>
+        </header>
+        <div id="puzzle-board" class="puzzle-board disabled"></div>
+        <button id="shuffle-button">Почати</button>
       </div>
-      <button id="shuffle-button">Почати</button>
+      <div class="scores-container">
+        <h2>Кращі результати</h2>
+        <span class="loader hidden"></span>
+        <div class="scores-list"></div>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
