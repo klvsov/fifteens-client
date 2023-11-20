@@ -112,6 +112,11 @@ window.addEventListener('DOMContentLoaded', async () => {
       renderTime(0, 0);
     }
 
+    if (stepTimer) {
+      clearInterval(stepTimer);
+      stepTime = 0;
+    }
+
     stepTimer = setInterval(() => {
       stepTime += 1;
       if (stepTime > 10) {
@@ -185,6 +190,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       soundWin.play();
       const totalTime = time;
       clearInterval(timer);
+      clearInterval(stepTimer);
       const m = parseInt(totalTime / 60);
       const s = totalTime % 60;
       renderTime(m, s);
