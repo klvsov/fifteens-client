@@ -1,4 +1,4 @@
-const URL = 'https://fifteens-api.onrender.com/api/scores';
+const URL = 'https://fifteens-api-production.up.railway.app/api/scores';
 const NEED_STEP_MSG = 'Потрібно зробити хід!!!';
 const NEW_GAM_LABEL = 'Нова гра';
 const EMPTY_RESULTS = 'Ще немає збережених результатів';
