@@ -1,11 +1,23 @@
-const URL = 'https://fifteens-api-production.up.railway.app/api/scores';
+// const URL = 'https://fifteens-api-production.up.railway.app/api/scores';
+const URL = 'https://fifteensapi-x80k4jxl.b4a.run/api/scores';
 const NEED_STEP_MSG = 'Потрібно зробити хід!!!';
 const NEW_GAM_LABEL = 'Нова гра';
 const EMPTY_RESULTS = 'Ще немає збережених результатів';
 const WIN_MSG = 'Вітаємо, ви вирішили головоломку!';
 const NO_USER_MSG = "Потрібно ввести ім'я користувача!";
 
+// initial values
+let steps = 0;
+let timer;
+let stepTimer;
+let stepTime = 0;
+let time = 0;
+let isStartGame = false;
+let isPaused = false;
+let user;
+
 window.addEventListener('DOMContentLoaded', async () => {
+  const html = document.documentElement;
   const board = document.getElementById('puzzle-board');
   const shuffleButton = document.getElementById('shuffle-button');
   const userForm = document.getElementById('user-form');
@@ -14,6 +26,56 @@ window.addEventListener('DOMContentLoaded', async () => {
   const userOverlay = document.querySelector('.overlay');
   const scoresContainer = document.querySelector('.scores-list');
   const loader = document.querySelector('.loader');
+  const themeSwitch = document.getElementById('themeSwitch');
+  const editUserContainer = document.querySelector('.user');
+  const editUser = document.querySelector('.user svg');
+  const savedUserContainer = document.querySelector('.user span');
+  const userInput = document.getElementById('user');
+
+  const savedTheme = localStorage.getItem('theme');
+  const savedUser = localStorage.getItem('user');
+
+  const checkSavedUser = () => {
+    const currentUser = user || savedUser;
+    if (currentUser) {
+      userInput.value = currentUser;
+      if (user !== currentUser) user = currentUser;
+      savedUserContainer.textContent = currentUser;
+      editUserContainer.classList.remove('hidden');
+    } else editUserContainer.classList.add('hidden');
+  };
+
+  checkSavedUser();
+
+  if (savedTheme === 'dark') {
+    themeSwitch.checked = true;
+    html.dataset.theme = 'dark';
+  }
+
+  themeSwitch.addEventListener('input', (e) => {
+    if (e.target.checked) {
+      localStorage.setItem('theme', 'dark');
+      html.dataset.theme = 'dark';
+    } else {
+      delete html.dataset.theme;
+      localStorage.removeItem('theme');
+    }
+  });
+
+  const userFormHandler = (callback) => {
+    userForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(userForm);
+      const userValue = formData.get('user');
+      const userName = userValue;
+      if (!userName) return alert(NO_USER_MSG);
+      user = userName;
+      localStorage.setItem('user', userName);
+      userOverlay.classList.add('hidden');
+      checkSavedUser();
+      callback?.();
+    });
+  };
 
   const renderScores = (scores) => {
     if (scores.length) {
@@ -53,15 +115,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   const sound = new Audio('./assets/sound.mp3');
   const soundWin = new Audio('./assets/sound-win.mp3');
-
-  // initial values
-  let steps = 0;
-  let timer;
-  let stepTimer;
-  let stepTime = 0;
-  let time = 0;
-  let isStartGame = false;
-  let user;
 
   // function for render steps count on client
   const renderSteps = (steps) => {
@@ -118,7 +171,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     stepTimer = setInterval(() => {
-      stepTime += 1;
+      if (!isPaused) stepTime += 1;
       if (stepTime > 10) {
         alert(NEED_STEP_MSG);
         stepTime = 0;
@@ -126,7 +179,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }, 1000);
 
     timer = setInterval(() => {
-      time += 1;
+      if (!isPaused) time += 1;
       const m = parseInt(time / 60);
       const s = time % 60;
       renderTime(m, s);
@@ -201,6 +254,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         },
         body: JSON.stringify({ user, score: totalTime * 1000 }),
       });
+      board.classList.add('disabled');
       alert(WIN_MSG);
       try {
         loader.classList.remove('hidden');
@@ -227,22 +281,19 @@ window.addEventListener('DOMContentLoaded', async () => {
     return { isSolved: solved.every((el) => !!el), solved };
   }
 
-  shuffleButton.addEventListener('click', () => {
-    if (!user) {
-      userOverlay.classList.remove('hidden');
-      document.getElementById('user')?.focus();
-    } else return startGame();
+  editUser.addEventListener('click', () => {
+    isPaused = true;
+    checkSavedUser();
+    userOverlay.classList.remove('hidden');
+    userFormHandler(() => (isPaused = false));
   });
 
-  userForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(userForm);
-    const userInput = formData.get('user');
-    const userName = user || userInput;
-    if (!userName) return alert(NO_USER_MSG);
-    user = userName;
-    userOverlay.classList.add('hidden');
-    startGame();
+  shuffleButton.addEventListener('click', () => {
+    if (!user) {
+      checkSavedUser();
+      userOverlay.classList.remove('hidden');
+      userFormHandler(startGame);
+    } else return startGame();
   });
 
   createPuzzle(); // Начальное создание пазлов
