@@ -62,19 +62,21 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  const handleSubmitForm = (e, callback) => {
+    e.preventDefault();
+    const formData = new FormData(userForm);
+    const userValue = formData.get('user');
+    const userName = userValue;
+    if (!userName) return alert(NO_USER_MSG);
+    user = userName;
+    localStorage.setItem('user', userName);
+    userOverlay.classList.add('hidden');
+    checkSavedUser();
+    callback();
+  };
+
   const userFormHandler = (callback) => {
-    userForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(userForm);
-      const userValue = formData.get('user');
-      const userName = userValue;
-      if (!userName) return alert(NO_USER_MSG);
-      user = userName;
-      localStorage.setItem('user', userName);
-      userOverlay.classList.add('hidden');
-      checkSavedUser();
-      callback?.();
-    });
+    userForm.addEventListener('submit', (e) => handleSubmitForm(e, callback));
   };
 
   const renderScores = (scores) => {
@@ -285,14 +287,20 @@ window.addEventListener('DOMContentLoaded', async () => {
     isPaused = true;
     checkSavedUser();
     userOverlay.classList.remove('hidden');
-    userFormHandler(() => (isPaused = false));
+    userFormHandler(() => {
+      isPaused = false;
+      userForm.removeEventListener('submit', handleSubmitForm);
+    });
   });
 
   shuffleButton.addEventListener('click', () => {
     if (!user) {
       checkSavedUser();
       userOverlay.classList.remove('hidden');
-      userFormHandler(startGame);
+      userFormHandler(() => {
+        startGame();
+        userForm.removeEventListener('submit', handleSubmitForm);
+      });
     } else return startGame();
   });
 
