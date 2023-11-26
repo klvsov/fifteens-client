@@ -135,6 +135,13 @@ body {
   display: none;
 }
 
+.user span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(400px - 140px);
+}
+
 .user,
 .user span,
 .user svg {
@@ -349,12 +356,26 @@ button:hover {
   .container {
     flex-direction: column;
     align-items: center;
+    margin-top: 60px;
+  }
+
+  .user {
+    top: 60px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .user span {
+    max-width: calc(100vw - 140px);
   }
 
   .puzzle-container,
   .scores-container {
-    width: 100%;
-    max-width: 100%;
+    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
     margin-bottom: 0;
     margin-top: 0;
   }
